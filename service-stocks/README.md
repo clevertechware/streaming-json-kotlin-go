@@ -6,7 +6,7 @@ Le service Go qui le lit est dans `../service-tasks`.
 
 ## Prérequis
 
-- JDK 21 (le wrapper Gradle est fourni ; la toolchain Gradle sélectionne un JDK 21)
+- JDK 25 (le wrapper Gradle est fourni ; la toolchain Gradle télécharge un JDK 25 s'il n'est pas installé)
 - Docker, pour les tests d'intégration (Testcontainers) et pour `compose.yaml`
 
 ## Test

@@ -8,7 +8,7 @@
 ## Prérequis
 
 - Docker avec Compose
-- Pour le mode par défaut : JDK 21 et Go 1.27
+- Pour le mode par défaut : JDK 25 et Go 1.27
 - `psql`, ou `docker compose exec postgres psql`
 
 ## Mode par défaut : PostgreSQL dans Docker, services lancés à la main

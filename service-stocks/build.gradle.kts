@@ -9,7 +9,7 @@ group = "demo"
 version = "0.1.0"
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
     compilerOptions {
         allWarningsAsErrors = true
         javaParameters = true
