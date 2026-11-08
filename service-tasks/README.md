@@ -2,6 +2,7 @@
 
 Lit le flux `POST /movements/export` de `service-stocks` (Kotlin) avec `json.Decoder` (`Token`, `More`, `Decode`)
 et insère les mouvements par lots de 100 dans la table `task_plan_movements` de la base `tasks`.
+La table est créée par `../postgres/init/03-tasks.sql`, que les tests d'intégration réutilisent.
 
 ## Prérequis
 

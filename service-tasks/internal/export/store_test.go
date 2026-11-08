@@ -28,6 +28,9 @@ func TestInsertStatementNumbersFourPlaceholdersPerRow(t *testing.T) {
 	}
 }
 
+// tasksSchema is the script compose runs on its PostgreSQL, so the tests use the same schema.
+const tasksSchema = "../../../postgres/init/03-tasks.sql"
+
 func newStore(t *testing.T) *Store {
 	t.Helper()
 	ctx := context.Background()
@@ -35,6 +38,7 @@ func newStore(t *testing.T) *Store {
 		postgres.WithDatabase("tasks"),
 		postgres.WithUsername("demo"),
 		postgres.WithPassword("demo"),
+		postgres.WithInitScripts(tasksSchema),
 		postgres.BasicWaitStrategies(),
 		testcontainers.WithWaitStrategy(wait.ForLog("database system is ready to accept connections").
 			WithOccurrence(2).WithStartupTimeout(60*time.Second)),

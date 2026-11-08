@@ -8,15 +8,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-const schema = `
-CREATE TABLE IF NOT EXISTS task_plan_movements (
-    task_plan_id text NOT NULL,
-    movement_id text NOT NULL,
-    code         text NOT NULL,
-    label        text NOT NULL,
-    PRIMARY KEY (task_plan_id, movement_id)
-)`
-
 type Store struct {
 	pool *pgxpool.Pool
 }
@@ -25,10 +16,6 @@ func NewStore(ctx context.Context, databaseURL string) (*Store, error) {
 	pool, err := pgxpool.New(ctx, databaseURL)
 	if err != nil {
 		return nil, fmt.Errorf("open tasks database: %w", err)
-	}
-	if _, err = pool.Exec(ctx, schema); err != nil {
-		pool.Close()
-		return nil, fmt.Errorf("create task_plan_movements: %w", err)
 	}
 	return &Store{pool: pool}, nil
 }
