@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demo -d movements"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  service-stocks:
+    profiles: [standalone]
+    build: ./service-stocks
+    environment:
+      MOVEMENTS_DB_URL: jdbc:postgresql://postgres:5432/movements
+      MOVEMENTS_DB_USER: demo
+      MOVEMENTS_DB_PASSWORD: demo
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/8080"]
+      interval: 2s
+      timeout: 3s
+      retries: 60
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  service-tasks:
+    profiles: [standalone]
+    build: ./service-tasks
+    command: ["-warehouse", "WH-1", "-task-plan", "TP-1"]
+    environment:
+      SERVICE_STOCKS_URL: http://service-stocks:8080
+      TASKS_DATABASE_URL: postgres://demo:demo@postgres:5432/tasks
+    depends_on:
+      postgres:
+        condition: service_healthy
+      service-stocks:
+        condition: service_healthy

@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    hikari:
+      minimum-idle: 4
+      maximum-pool-size: 10
+      idle-timeout: 300000
+      max-lifetime: 1800000
+    url: ${MOVEMENTS_DB_URL:jdbc:postgresql://localhost:5432/movements}
+    username: ${MOVEMENTS_DB_USER:demo}
+    password: ${MOVEMENTS_DB_PASSWORD:demo}
+  jdbc:
+    template:
+      fetch-size: 1000
+  mvc:
+    async:
+      request-timeout: 5m
